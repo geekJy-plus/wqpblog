@@ -1,10 +1,25 @@
+const moment = require('moment');
+moment.locale("zh-cn");
+
 module.exports = {
+    base: "/wqpblog/",
     title: "王钦鹏的个人博客",
     description: "欢迎来到王钦鹏的个人博客",
     head: [
         ['link', { rel: 'icon', href: 'assets/img/favicon.ico' }],
         ['meta', { name: 'author', content: '王钦鹏' }],
         ['meta', { name: 'keywords', content: 'vuepress ,王钦鹏,wangqinpeng,博客,blog' }]
+    ],
+    plugins: [
+        [
+            '@vuepress/last-updated',
+            {
+                transformer: (timestamp, lang) => {
+
+                    return moment(timestamp).format("LLLL")
+                }
+            }
+        ]
     ],
     themeConfig: {
         lastUpdated: '更新时间', // string | boolean
