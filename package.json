@@ -1,0 +1,24 @@
+{
+    "name": "wqpblog",
+    "version": "1.0.0",
+    "description": "王钦鹏的个人博客",
+    "main": "index.js",
+    "scripts": {
+        "docs:dev": "vuepress dev docs",
+        "docs:build": "vuepress build docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/geekJy-plus/wqpblog.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/geekJy-plus/wqpblog/issues"
+    },
+    "homepage": "https://github.com/geekJy-plus/wqpblog#readme",
+    "devDependencies": {
+        "vuepress": "^1.5.0"
+    }
+}
