@@ -18,24 +18,33 @@ module.exports = {
         ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
         ['meta', { name: 'msapplication-TileColor', content: '#000000' }]
     ],
-    plugins: [
-        [
-            '@vuepress/last-updated',
-            {
-                transformer: (timestamp, lang) => {
+    plugins: {
 
-                    return moment(timestamp).format("LLLL")
-                }
+        '@vuepress/last-updated': {
+            transformer: (timestamp, lang) => {
+
+                return moment(timestamp).format("LLLL")
             }
-        ],
-        ['@vuepress/pwa', {
+        },
+        '@vuepress/pwa': {
             serviceWorker: true,
             updatePopup: {
                 message: "发现新内容",
                 buttonText: "刷新"
             }
-        }]
-    ],
+        },
+        '@vssue/vuepress-plugin-vssue': {
+            // 设置 `platform` 而不是 `api`
+            platform: 'github-v4',
+
+            // 其他的 Vssue 配置
+            owner: '王钦鹏',
+            repo: 'wqpblog',
+            clientId: '980b7f687e30d9347beb',
+            clientSecret: '0b561609013072ceac550815d58962eadcc372ab',
+            autoCreateIssue: 'true'
+        },
+    },
     themeConfig: {
         lastUpdated: '更新时间', // string | boolean
         logo: '/assets/img/hljdx.png',
