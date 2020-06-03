@@ -12,4 +12,3 @@ title: 关于我
 ## 一级标题
 ## 一级标题
 ## 一级标题
-<Vssue :options="{ locale: 'zh' }" />
