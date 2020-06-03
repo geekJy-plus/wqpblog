@@ -38,12 +38,13 @@ module.exports = {
             platform: 'github-v4',
 
             // 其他的 Vssue 配置
-            owner: '王钦鹏',
+            owner: 'geekJy-plus',
             repo: 'wqpblog',
             clientId: '980b7f687e30d9347beb',
             clientSecret: '0b561609013072ceac550815d58962eadcc372ab',
             autoCreateIssue: 'true'
         },
+        '@vuepress/back-to-top': true
     },
     themeConfig: {
         lastUpdated: '更新时间', // string | boolean
