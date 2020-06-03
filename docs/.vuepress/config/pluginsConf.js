@@ -1,4 +1,5 @@
 const moment = require('moment');
+const secret = require('./secret')
 moment.locale("zh-cn");
 module.exports = {
 
@@ -22,7 +23,8 @@ module.exports = {
         // 其他的 Vssue 配置
         owner: 'geekJy-plus',
         repo: 'wqpblog',
-
+        clientId: secret.clientId,
+        clientSecret: secret.clientSecret,
         autoCreateIssue: 'true'
     },
     '@vuepress/back-to-top': true
