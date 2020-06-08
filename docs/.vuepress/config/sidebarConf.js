@@ -1,8 +1,8 @@
 module.exports = {
-    '/foo/': [
+    '/vue/': [
         '', /* /foo/ */
-        'one', /* /foo/one.html */
-        'two' /* /foo/two.html */
+        'day1', /* /foo/one.html */
+        'day2' /* /foo/two.html */
     ],
     '/bar/': [
         '', /* /bar/ */

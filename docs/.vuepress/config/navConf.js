@@ -1,7 +1,7 @@
 module.exports = [
-    { text: 'Home', link: '/' },
-    { text: 'About', link: '/about/' },
-    { text: 'Foo', link: '/foo/' },
+    { text: '首页', link: '/' },
+    { text: '关于我', link: '/about/' },
+    { text: 'Vue.js', link: '/vue/' },
 
     {
         text: 'Languages',
