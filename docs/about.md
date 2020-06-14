@@ -1,8 +1,3 @@
----
-# navbar: false
-sidebar: auto
-title: 关于我
----
 #  王钦鹏的个人简历
 ## 个人信息
 

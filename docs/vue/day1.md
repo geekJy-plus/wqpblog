@@ -334,10 +334,36 @@ return this.list.filter(x => {
 </html>
 ```
 > 过滤器的使用注意事项
-> 1.Vue.filter('过滤器的名称'，'过滤器的处理函数')
-> 2.过滤器处理函数中，第一个形参，功能已经被规定好了，永远都是管道符前面的值
-> 3.调用过滤器   {{new Date()|dataFormat}} 
-> 4.在调用过滤器的时候可以传递参数 {{new Date()|dataFormat('yyyy-mm-dd')}}
-> 5.过滤器的处理函数中，必须返回一个值
-> 6.可以连续使用管道符，调用多个过滤器，最终输出结果以最后一个过滤器为准
-> 7.过滤器只能使用在插值表达式或者`v-bind`中，不能使用在其他地方，`v-text`不支持过滤器
++ 1.Vue.filter('过滤器的名称'，'过滤器的处理函数')
++ 2.过滤器处理函数中，第一个形参，功能已经被规定好了，永远都是管道符前面的值
++ 3.调用过滤器   {{new Date()|dataFormat}} 
++ 4.在调用过滤器的时候可以传递参数 {{new Date()|dataFormat('yyyy-mm-dd')}}
++ 5.过滤器的处理函数中，必须返回一个值
++ 6.可以连续使用管道符，调用多个过滤器，最终输出结果以最后一个过滤器为准
++ 7.过滤器只能使用在插值表达式或者`v-bind`中，不能使用在其他地方，`v-text`不支持过滤器
+
+### 私有过滤器
+```js
+filters: { // 私有局部过滤器，只能在 当前 VM 对象所控制的 View 区域进行使用
+ dataFormat(input, pattern = "") { // 在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
+   var dt = new Date(input);
+   // 获取年月日
+   var y = dt.getFullYear();
+   var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+   var d = dt.getDate().toString().padStart(2, '0');
+
+   // 如果 传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日
+   // 否则，就返回  年-月-日 时：分：秒
+   if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+     return `${y}-${m}-${d}`;
+   } else {
+     // 获取时分秒
+     var hh = dt.getHours().toString().padStart(2, '0');
+     var mm = dt.getMinutes().toString().padStart(2, '0');
+     var ss = dt.getSeconds().toString().padStart(2, '0');
+
+     return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+   }
+ }
+}
+```

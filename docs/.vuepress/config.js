@@ -12,7 +12,7 @@ module.exports = {
     plugins: pluginsConf,
     themeConfig: {
         lastUpdated: '更新时间', // string | boolean
-        logo: '/assets/img/hljdx.png',
+        logo: '/assets/img/hero.png',
         nav: navConf,
         sidebar: sidebarConf
     }
