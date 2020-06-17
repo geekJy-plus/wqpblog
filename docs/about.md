@@ -1,4 +1,5 @@
 #  王钦鹏的个人简历
+
 ## 个人信息
 
  - 王钦鹏/男/1998 
@@ -7,7 +8,7 @@
  - Github：https://github.com/geekJy-plus
  - 期望职位：web前端工程师
  - 期望城市：北京
-# 技能清单
+## 技能清单
 以下均为我熟练使用的技能
 - 前端开发：HTML5/CSS3/JavaScript/jQuery
 - 前端框架：Bootstrap/Vue.js/

@@ -12,23 +12,23 @@ module.exports = [
             { text: '进阶', link: '/language/japanese/' }
         ]
     },
-    {
-        text: 'study',
-        items: [{
-                text: '',
-                items: [
-                    { text: 'Chinese', link: '/language/chinese/' },
-                    { text: 'Japanese', link: '/language/japanese/' }
-                ]
-            },
-            {
-                text: 'Group2',
-                items: [{ text: 'Chinese', link: '/language/chinese/' },
-                    { text: 'Japanese', link: '/language/japanese/' }
-                ]
-            }
-        ]
-    },
+    // {
+    //     text: 'study',
+    //     items: [{
+    //             text: '',
+    //             items: [
+    //                 { text: 'Chinese', link: '/language/chinese/' },
+    //                 { text: 'Japanese', link: '/language/japanese/' }
+    //             ]
+    //         },
+    //         {
+    //             text: 'Group2',
+    //             items: [{ text: 'Chinese', link: '/language/chinese/' },
+    //                 { text: 'Japanese', link: '/language/japanese/' }
+    //             ]
+    //         }
+    //     ]
+    // },
 
     { text: 'Github', link: 'https://github.com/geekJy-plus' },
 ]
