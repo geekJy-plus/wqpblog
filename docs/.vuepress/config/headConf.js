@@ -1,7 +1,7 @@
 module.exports = [
     ['link', { rel: 'icon', href: 'assets/img/favicon.ico' }],
-    ['meta', { name: 'author', content: '王钦鹏' }],
-    ['meta', { name: 'keywords', content: 'vuepress ,王钦鹏,wangqinpeng,博客,blog' }],
+    ['meta', { name: 'author', content: '后来的后来' }],
+    ['meta', { name: 'keywords', content: 'vuepress ,后来的后来,houlaidehoulai,博客,blog' }],
     ['link', { rel: 'manifest', href: '/manifest.json' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],

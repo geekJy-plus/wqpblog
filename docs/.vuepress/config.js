@@ -6,8 +6,8 @@ const sidebarConf = require('./config/sidebarConf.js');
 
 module.exports = {
     base: "/wqpblog/",
-    title: "王钦鹏的个人博客",
-    description: "欢迎来到王钦鹏的个人博客",
+    title: "后来的后来の个人博客",
+    description: "欢迎来到后来的后来の个人博客",
     head: headConf,
     plugins: pluginsConf,
     themeConfig: {

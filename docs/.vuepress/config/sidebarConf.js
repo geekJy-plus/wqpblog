@@ -15,6 +15,12 @@ module.exports = {
         /* /bar/three.html */
         // 'basic' /* /bar/four.html */
     ],
+    '/jsup/': [
+        '',
+    ],
+    '/interview/': [
+        '',
+    ]
 
 
 }

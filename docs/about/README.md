@@ -3,10 +3,10 @@
 sidebar: auto
 title: 关于我
 ---
-#  王钦鹏的个人简历
+#  后来的后来の个人简历
 ## 个人信息
 
- - 王钦鹏/男/1998 
+ - 后来的后来/男/20 
  - 本科/黑龙江大学/电子信息科学与技术
  - 技术博客：https://geekjy-plus.github.io/wqpblog/
  - Github：https://github.com/geekJy-plus
