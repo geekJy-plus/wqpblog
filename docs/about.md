@@ -2,8 +2,8 @@
 
 ## 个人信息
 
- - 后来的后来/男/20 
- - 本科(一本)/黑龙江大学/电子信息科学与技术
+ - 王钦鹏/男/20 
+ - 本科/黑龙江大学/电子信息科学与技术
  - 技术博客：https://geekjy-plus.github.io/wqpblog/
  - Github：https://github.com/geekJy-plus
  - 期望职位：web前端工程师

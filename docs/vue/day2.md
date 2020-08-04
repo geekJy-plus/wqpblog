@@ -34,7 +34,7 @@ Vue.config.keyCodes.f2 = 113;
 <input type="text" v-model="name" @keyup.f2="add">
 ```
 ## Vue实例的生命周期
-![Vue实例的生命周期](docs\.vuepress\public\assets\img\lifecycle.png)
+![A img](../.vuepress/public/assets/img/lifecycle.png)
 +   什么是生命周期：从Vue实例创建、运行、到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期！
 +  生命周期钩子：就是生命周期事件的别名而已；
 +  生命周期钩子 = 生命周期函数 = 生命周期事件

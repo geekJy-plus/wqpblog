@@ -20,7 +20,11 @@ module.exports = {
     ],
     '/interview/': [
         '',
+    ],
+    '/c_ss/': [
+        '',
     ]
+
 
 
 }
