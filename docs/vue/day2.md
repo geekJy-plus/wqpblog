@@ -4,6 +4,7 @@ title: Vue.js-Day2
 # Vue.js-Day2
 
 ## 自定义指令
+> 过滤器和自定义指令函数中的this不是当前实例
 ```js
  // 自定义全局指令 v-focus，为绑定的元素自动获取焦点：
  Vue.directive('focus', {
@@ -282,3 +283,335 @@ transition: all 0.8s ease;
 position: absolute;
 }
 ```
+### todo小案例
+```js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        
+        <input type="text" v-model='name' @keydown.13='add'>
+        <ul>
+          <li v-for='(item,index) in ary' :key='index'>{{item}}  <button @click='del(index)'>删除</button></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let t = localStorage.getItem('myary') || "[]";
+    t = JSON.parse(t);
+    let vm = new Vue({
+        el:'#app',
+        data:{
+          
+            ary:t
+        },
+        methods: {
+          add(){
+            this.ary.unshift(this.name)
+            localStorage.setItem('myary',JSON.stringify(this.ary))
+            this.name = ''
+          },
+          del(n){
+            this.ary.splice(n,1)
+            localStorage.setItem('myary',JSON.stringify(this.ary))
+          }
+        },
+    });
+</script>
+```
+## 京东购物车案例
+```js
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        img{
+            /* width: 50%; */
+            height: 50%;
+        }
+        .table tr td{
+            vertical-align: middle
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{name}}</h1>
+        <table class='table table-striped table-bordered text-center text-justify'>
+            <thead>
+                <tr>
+                    <!-- th  td 兄弟 -->
+                    <th>全选<input type="checkbox" v-model='checkAll'></th>
+                    <th>商品</th>
+                    <th></th>
+                    <th></th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='(item,index) in list' :key="item.id">
+                    <!-- 我们要循环展示 tr -->
+                    <td><input type="checkbox" v-model='item.isSelect'></td>
+                    <td><img :src="item.pic" alt="图片"></td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.desc}}</td>
+                    <td>{{item.price|money}}</td>
+                    <!-- 商品的属量 -->
+                    <td><input type="number" min=0 v-model='item.count'></td>
+                    <!-- 商品的总价 -->
+                    <td>{{item.price * item.count|money}}</td>
+                    <td><button type="button" class="btn btn-danger" @click='del(item,index)'>删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='8'>
+                        <button type="button" class="btn btn-danger">清空购物车</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        总价：{{total|money}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="./index.js"></script>
+```
+```js
+Vue.filter('money', function(val, n = 2) {
+    return (val / 100).toFixed(2)
+})
+let vm = new Vue({
+    el: '#app',
+    data: {
+        list: [],
+        name: "珠峰"
+    },
+    created() {
+        this.getData()
+    },
+    methods: {
+        getData() {
+            // 用来获取数据的
+            fetch('./data.json').then(res => res.json()).then(data => {
+                console.log(data)
+                this.list = data;
+            })
+        },
+        del(item, index) {
+            // this.list.splice(index,1)
+            this.list = this.list.filter(val => {
+                return val.id !== item.id
+            })
+        }
+    },
+    computed: {
+        // checkAll(){
+        //   return this.list.every(item=>item.isSelect)
+        // }
+        checkAll: {
+            get() {
+                return this.list.every(item => item.isSelect)
+            },
+            set(val) {
+                this.list.forEach(item => item.isSelect = val)
+            }
+        },
+        total() {
+            return this.list.reduce((prev, cur) => {
+                if (cur.isSelect) {
+                    return prev + cur.count * cur.price
+                } else {
+                    return prev
+                }
+            }, 0)
+        }
+    },
+})
+```
+### data.json
+```js
+[{
+    "pic": "https://img10.360buyimg.com/cms/s80x80_jfs/t20599/5/1848245261/259599/458bc9b5/5b39951dNfa084179.jpg",
+    "title": "郎酒123",
+    "desc": "颜色：红色",
+    "price": 18000,
+    "count": 1,
+    "isSelect": false,
+    "id":100
+},
+{
+    "pic": "https://img10.360buyimg.com/cms/s80x80_jfs/t20599/5/1848245261/259599/458bc9b5/5b39951dNfa084179.jpg",
+    "title": "郎酒123",
+    "desc": "颜色：红色",
+    "price": 18000,
+    "count": 1,
+    "isSelect": true,
+    "id":200
+    
+},
+{
+    "pic": "https://img10.360buyimg.com/cms/s80x80_jfs/t20599/5/1848245261/259599/458bc9b5/5b39951dNfa084179.jpg",
+    "title": "郎酒123",
+    "desc": "颜色：红色",
+    "price": 18000,
+    "count": 1,
+    "isSelect": true,
+    "id":300
+}
+]
+```
+## nextTick原理
++ DOM的更新是一个异步操作， 优点在于 可以提升渲染的效率
++ nextTick 会等待 DOM更新完成之后 在去触发回调函数
+```js
+/* @flow */
+/* globals MutationObserver */
+
+import { noop } from 'shared/util'
+import { handleError } from './error'
+import { isIE, isIOS, isNative } from './env'
+
+export let isUsingMicroTask = false// 是否使用微任务
+
+const callbacks = [] // 就是一个事件池
+let pending = false
+
+function flushCallbacks () {
+  // 触发 callbacks中的回调函数
+  pending = false
+  const copies = callbacks.slice(0) // 复制
+  callbacks.length = 0 //清空
+  for (let i = 0; i < copies.length; i++) {
+    copies[i]()
+  }
+}
+
+// Here we have async deferring wrappers using microtasks.
+// In 2.5 we used (macro) tasks (in combination with microtasks).
+// However, it has subtle problems when state is changed right before repaint
+// (e.g. #6813, out-in transitions).
+// Also, using (macro) tasks in event handler would cause some weird behaviors
+// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).
+// So we now use microtasks everywhere, again.
+// A major drawback of this tradeoff is that there are some scenarios
+// where microtasks have too high a priority and fire in between supposedly
+// sequential events (e.g. #4521, #6690, which have workarounds)
+// or even between bubbling of the same event (#6566).
+let timerFunc
+
+// The nextTick behavior leverages the microtask queue, which can be accessed
+// via either native Promise.then or MutationObserver.
+// MutationObserver has wider support, however it is seriously bugged in
+// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
+// completely stops working after triggering a few times... so, if native
+// Promise is available, we will use it:
+/* istanbul ignore next, $flow-disable-line */
+if (typeof Promise !== 'undefined' && isNative(Promise)) {
+  const p = Promise.resolve()
+  timerFunc = () => {
+    p.then(flushCallbacks)
+    // In problematic UIWebViews, Promise.then doesn't completely break, but
+    // it can get stuck in a weird state where callbacks are pushed into the
+    // microtask queue but the queue isn't being flushed, until the browser
+    // needs to do some other work, e.g. handle a timer. Therefore we can
+    // "force" the microtask queue to be flushed by adding an empty timer.
+    if (isIOS) setTimeout(noop)
+  }
+  isUsingMicroTask = true
+} else if (!isIE && typeof MutationObserver !== 'undefined' && (
+  isNative(MutationObserver) ||
+  // PhantomJS and iOS 7.x
+  MutationObserver.toString() === '[object MutationObserverConstructor]'
+)) {
+  //使用MutationObserver构造函数，新建一个实例，同时指定这个实例的回调函数；这里的回调函数类似于then 是一个微任务
+  // Use MutationObserver where native Promise is not available,
+  // e.g. PhantomJS, iOS7, Android 4.4
+  // (#6466 MutationObserver is unreliable in IE11)
+  let counter = 1
+  const observer = new MutationObserver(flushCallbacks)
+  const textNode = document.createTextNode(String(counter))
+  observer.observe(textNode, {
+    characterData: true
+  })
+  timerFunc = () => {
+    counter = (counter + 1) % 2
+    textNode.data = String(counter)
+  }
+  isUsingMicroTask = true
+} else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+  // Fallback to setImmediate.
+  // Technically it leverages the (macro) task queue,
+  // but it is still a better choice than setTimeout.
+  timerFunc = () => {
+    setImmediate(flushCallbacks)
+  }
+} else {
+  // Fallback to setTimeout.
+  /* 
+  两者都代表主线程完成后立即执行，其执行结果是不确定的，
+  可能是setTimeout回调函数执行结果在前，也可能是setImmediate回调函数执行结果在前
+  ，但setTimeout回调函数执行结果在前的概率更大些，
+  这是因为他们采用的观察者不同，setTimeout采用的是类似IO观察者，setImmediate采用的是check观察者，
+  
+
+  观察者的优先级顺序是：io观察者>check观察者
+
+  setTimeout()，精确度不高，可能有延迟执行的情况发生，且因为动用了红黑树，所以消耗资源大； 
+  setImmediate()，消耗的资源小，也不会造成阻塞，但效率也是最低的。
+  */
+  timerFunc = () => {
+    setTimeout(flushCallbacks, 0)
+  }
+}
+
+export function nextTick (cb?: Function, ctx?: Object) {
+  let _resolve
+  callbacks.push(() => {
+    if (cb) {
+      try {
+        cb.call(ctx)
+      } catch (e) {
+        handleError(e, ctx, 'nextTick')
+      }
+    } else if (_resolve) {
+      _resolve(ctx)
+    }
+  })
+  if (!pending) {
+    pending = true // 异步函数执行完成之后 pending 又变成了 false
+    timerFunc() // 它是一个异步函数； 
+  }
+  // $flow-disable-line
+  if (!cb && typeof Promise !== 'undefined') {
+    return new Promise(resolve => {
+      _resolve = resolve
+    })
+  }
+}
+```
+### 总结
+> nextTick执行传递了一个 回调函数；nextTick源码把传进来的函数 放到了一个 callbacks数组中的，这个数据其实就是一个事件池，源码中的添加完成之后， 根据pending这个变量，执行了timerfunc且把 pending变成了  true；这样 在多次同步使用 nextTick时 就不会再去执行 timerfunc, timerfunc是一个函数 函数里 做了一个异步操作（就是让flushCallbacks异步执行），为啥异步执行是为了能侯在多次同步执行nextTick时 ，先把回调函数放到事件池中；等同步执行完成之后， 在去执行异步flushCallbacks，flushCallbacks 这个函数就是把事件池中的所有回调函数挨个执行了

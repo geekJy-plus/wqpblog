@@ -868,4 +868,152 @@ var register = Vue.extend({
 
 </html>
 ```
-## watch属性的使用
+## 计算属性的使用
+> 一个computed属性中，每个类似this.foo的调用，都会在get()中重新收集依赖。当依赖收集大于一次（不是一个）时，视为脏（dirty）计算属性，需要重新 evaluate再取值。对于干净的计算属性，不需重新执行evaluate，vue直接取值即可。
+```js
+<body>
+    <div id="app">
+        <h1>{{name}}</h1>
+        <h2>{{fullname}}</h2>
+        <h2>{{fn()}}</h2>
+        <input type="text" v-model='firstname'>
+        <input type="text" v-model='secondname'>
+    </div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            name:"珠峰",
+            firstname:'',
+            secondname:''
+        },
+        computed: {
+          // 这里的属性名 也是不能跟 data中的重复
+          // fullname(){
+          //   // 依赖： 在同步函数中使用了当前实例的哪些属性  那么  这个计算属性就就是依赖哪些属性
+          //   // 只要依赖发生改变  这个函数就会执行;依赖不发生改变 那么 这个就不会执行
+          //   // console.log('计算属性')
+            
+          //   // setTimeout(() => {
+          //   //   console.log(this.firstname + ' ' + this.secondname)
+          //   // }, 10);
+          //   return this.firstname + ' ' + this.secondname
+          // }
+          fullname:{
+            get(){
+              // 上边德那种简写方式 就是 相当于 只写了get没有写 set
+              return this.firstname + ' ' + this.secondname
+            },
+            set(val){
+              console.log(val)
+              this.firstname = val;
+            }
+          }
+        },
+        methods: {
+          fn(){
+            console.log('methods')
+            return this.firstname + ' ' + this.secondname
+          },
+          f1(){
+            this.name = this.firstname + ' ' + this.secondname
+          },
+          f2(){
+            this.name = this.firstname + ' ' + this.secondname
+          }
+        },
+    });
+</script>
+```
+## 侦听器的使用
+```js
+<body>
+    <div id="app">
+        <h1>{{name}}</h1>
+        <h2>{{fullname}}</h2>
+        <input type="text" v-model='firstname'>
+        <input type="text" v-model='secondname'>
+    </div>
+</body>
+</html>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            name:"珠峰",
+            firstname:'',
+            secondname:'',
+            fullname:'',
+            obj:{
+                a:123
+            }
+        },
+        methods: {
+            qqq(){
+                console.log(6666)
+            }
+        },
+        // computed: {
+        //     fullname(){
+        //         return {
+        //             name:this.name,
+        //             age:this.firstname
+        //         }
+        //     }
+        // },
+        watch: {
+            // 监听 ； 这里的属性 都是i已经存在的属性
+            name(newV,oldV){
+                // 只要name发生改变 我就执行这个函数
+                console.log(newV,oldV)
+            },
+            firstname(){
+                setTimeout(() => {
+                    this.fullname = this.firstname + ' ' + this.secondname
+                }, 2000);
+                
+            },
+            secondname(){
+                setTimeout(() => {
+                    this.fullname = this.firstname + ' ' + this.secondname
+                }, 2000);
+            },
+            // obj(){
+            //     console.log(this.obj.a)
+            // }
+            // obj:{
+            //     deep:true,// 深度监听； 可见听对象中度的所有后代属性 默认值false
+            //     immediate:true, //默认值时false  初始化赋值的时候 要触发函数
+            //     handler(newV,oldV){
+            //         // 深度监听时  newv === oldV
+            //         console.log(newV , oldV)
+            //         console.log(this.obj.a)
+            //     }
+            // }
+            obj:[
+                'qqq',
+                {
+                    deep:true,
+                    handler:function hadsdfgsd(){console.log(1)}
+                },
+                {
+                    deep:true,
+                    handler(){console.log(2)}
+                },
+                function f(){
+                    console.log(3)
+                }
+            ]
+        },
+    });
+</script>
+```
+## computed vs watch
++ 计算属性的优点  可以以较少的代码实现比较复杂的功能（当某个属性依赖于 其他几个数据的时候）这是若使用watch的时候 则 需要把这个几个依赖全都watch了 代码比较冗余
++ 一个computed属性中，每个类似this.foo的调用，都会在get()中重新收集依赖。当依赖收集大于一次（不是一个）时，视为脏（dirty）计算属性，需要重新 evaluate再取值。对于干净的计算属性，不需重新执行evaluate，vue直接取值即可
++ 计算属性的缺点  不支持异步，当涉及到异步的时候 计算属性没办法满足， 这是就可以使用watch  
