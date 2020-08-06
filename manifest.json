@@ -1,0 +1,9 @@
+{
+    "name": "王钦鹏的博客",
+    "short_name": "博客",
+
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#3eaf7c"
+}
